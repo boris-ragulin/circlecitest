@@ -10,7 +10,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: v1-tested-commits-{{ checksum 1.txt }}
+          key: v1-tested-commits-{{ checksum "1.txt" }}
       - run:
           name: Check whether requirements.txt changed
           command: |
@@ -65,7 +65,7 @@ jobs:
                 name: Save the new requirements checksum
                 command: echo ${REQ_CHECKSUM} > .circleci/.checksum
             - save_cache:
-                key: v1-tested-commits
+                key: v1-tested-commits-{{ checksum "1.txt" }}
                 paths:
                   - .circleci/.checksum
 
