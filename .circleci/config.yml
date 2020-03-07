@@ -26,7 +26,7 @@ jobs:
             else
               echo "export REQ_CHANGED=false"
             fi
-      - when:
+      - unless:
           condition: $REQ_CHANGED
           steps:
             - run:
