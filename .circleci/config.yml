@@ -10,22 +10,22 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: v1-tested-commits
+          key: v1-tested-commits-{{ checksum 1.txt }}
       - run:
           name: Check whether requirements.txt changed
           command: |
             if [[ -z .checksum ]]
             then
-              export PREV_CHECKSUM=$(cat .circleci/.checksum)
-            fi
-
-            export REQ_CHECKSUM="5454"
-            if [[ $REQ_CHECKSUM -ne $PREV_CHECKSUM ]]
-            then
               echo "export REQ_CHANGED=true" >> $BASH_ENV
-            else
-              echo "export REQ_CHANGED=false"
             fi
+            #
+            # export REQ_CHECKSUM="5454"
+            # if [[ $REQ_CHECKSUM -ne $PREV_CHECKSUM ]]
+            # then
+            #   echo "export REQ_CHANGED=true" >> $BASH_ENV
+            # else
+            #   echo "export REQ_CHANGED=false"
+            # fi
       - unless:
           condition: $REQ_CHANGED
           steps:
