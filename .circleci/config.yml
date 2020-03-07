@@ -29,8 +29,8 @@ jobs:
       - when:
           condition: $REQ_CHANGED
           steps:
-            -run:
-              command: echo $REQ_CHANGED
+            - run:
+                command: echo $REQ_CHANGED
             # persist_to_workspace:
             #   root: .circleci
             #   paths:
