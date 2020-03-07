@@ -1,0 +1,74 @@
+version: 2.1
+jobs:
+  build_deps:
+    docker:
+      - image: cirleci/python
+        # aws_auth:
+        #     aws_access_key_id: $AWS_ACCESS_KEY
+        #     aws_secret_access_key: $AWS_SECRET_ACCESS_KEY
+    working_directory: /srv/wingaudit
+    steps:
+      # - checkout
+      - restore_cache:
+          key: v1-tested-commits-{{ checksum ".circleci/.checksum" }}
+      - run:
+          name: Check whether requirements.txt changed
+          command: |
+            if [[ -z .checksum ]]
+            then
+              export PREV_CHECKSUM=$(cat .circleci/.checksum)
+            fi
+
+            export REQ_CHECKSUM="5454"
+            if [[ $REQ_CHECKSUM -ne $PREV_CHECKSUM ]]
+            then
+              echo "export REQ_CHANGED=true" >> $BASH_ENV
+            else
+              echo "export REQ_CHANGED=false"
+            fi
+      - when:
+          condition: $REQ_CHANGED
+          steps:
+            # persist_to_workspace:
+            #   root: .circleci
+            #   paths:
+            #     - ./*
+            - setup_remote_docker:
+                version: 18.06.0-ce
+            # - run:
+            #     name: Build and push deps
+            #     command: |
+            #       aws configure set \
+            #       aws_access_key_id $AWS_ACCESS_KEY
+            #       aws configure set \
+            #       aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+            #       aws configure set region $AWS_DEFAULT_REGION
+            #       .circleci/build_img.sh deps \
+            #       $CIRCLE_BRANCH ${CIRCLE_SHA1:0:7} \
+            #       ${CIRCLE_SHA1:0:7} \
+            #       $(cat .circleci/.checksum|cut -c -7)
+            # - run:
+            #     name: Build and push test
+            #     command: |
+            #       aws configure set \
+            #       aws_access_key_id $AWS_ACCESS_KEY
+            #       aws configure set \
+            #       aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+            #       aws configure set region $AWS_DEFAULT_REGION
+            #       .circleci/build_img.sh test \
+            #       $CIRCLE_BRANCH ${CIRCLE_SHA1:0:7} \
+            #       ${CIRCLE_SHA1:0:7} \
+            #       $(cat .circleci/.checksum|cut -c -7)
+            - run:
+                name: Save the new requirements checksum
+                command: echo ${REQ_CHECKSUM} > .circleci/.checksum
+            - save_cache:
+                key: v1-tested-commits-{{ checksum ".circleci/.checksum" }}
+                paths:
+                  - .circleci/.checksum
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build_deps
