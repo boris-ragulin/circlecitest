@@ -1,4 +1,7 @@
 version: 2.1
+commands:
+
+
 jobs:
   build_deps:
     docker:
@@ -29,6 +32,7 @@ jobs:
       - when:
           condition: $REQ_CHANGED
           steps:
+            echo $REQ_CHANGED
             # persist_to_workspace:
             #   root: .circleci
             #   paths:
