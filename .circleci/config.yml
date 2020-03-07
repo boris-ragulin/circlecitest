@@ -8,7 +8,7 @@ jobs:
         #     aws_secret_access_key: $AWS_SECRET_ACCESS_KEY
     working_directory: /srv/wingaudit
     steps:
-      # - checkout
+      - checkout
       - restore_cache:
           key: v1-tested-commits-{{ checksum ".circleci/.checksum" }}
       - run:
