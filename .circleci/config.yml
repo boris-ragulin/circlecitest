@@ -14,18 +14,10 @@ jobs:
       - run:
           name: Check whether requirements.txt changed
           command: |
-            if [[ -f .circleci/.checksum ]]; then
+            if [[ ! -f .circleci/.checksum ]]; then
               echo "export REQ_CHANGED=true" >> $BASH_ENV
             fi
-            #
-            # export REQ_CHECKSUM="5454"
-            # if [[ $REQ_CHECKSUM -ne $PREV_CHECKSUM ]]
-            # then
-            #   echo "export REQ_CHANGED=true" >> $BASH_ENV
-            # else
-            #   echo "export REQ_CHANGED=false"
-            # fi
-      - unless:
+      - when:
           condition: $REQ_CHANGED
           steps:
             - run:
