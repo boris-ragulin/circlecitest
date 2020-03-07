@@ -34,7 +34,7 @@ jobs:
       - run:
           command: echo ${REQ_CHANGED}
       - build_docker:
-          run: $REQ_CHANGED
+          run: ${REQ_CHANGED}
           # persist_to_workspace:
           #   root: .circleci
           #   paths:
