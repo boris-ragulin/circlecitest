@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   build_deps:
     docker:
-      - image: cirleci/python
+      - image: circleci/python
         # aws_auth:
         #     aws_access_key_id: $AWS_ACCESS_KEY
         #     aws_secret_access_key: $AWS_SECRET_ACCESS_KEY
