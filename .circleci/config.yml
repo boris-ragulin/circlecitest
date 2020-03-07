@@ -14,8 +14,7 @@ jobs:
       - run:
           name: Check whether requirements.txt changed
           command: |
-            if [[ ! -z .checksum ]]
-            then
+            if [[ ! -f .circleci/.checksum ]]; then
               echo "export REQ_CHANGED=true" >> $BASH_ENV
             fi
             #
