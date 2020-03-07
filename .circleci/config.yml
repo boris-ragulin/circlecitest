@@ -10,7 +10,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: v1-tested-commits-{{ checksum ".circleci/.checksum" }}
+          key: v1-tested-commits
       - run:
           name: Check whether requirements.txt changed
           command: |
@@ -33,8 +33,8 @@ jobs:
             #   root: .circleci
             #   paths:
             #     - ./*
-            - setup_remote_docker:
-                version: 18.06.0-ce
+            # - setup_remote_docker:
+            #     version: 18.06.0-ce
             # - run:
             #     name: Build and push deps
             #     command: |
@@ -63,7 +63,7 @@ jobs:
                 name: Save the new requirements checksum
                 command: echo ${REQ_CHECKSUM} > .circleci/.checksum
             - save_cache:
-                key: v1-tested-commits-{{ checksum ".circleci/.checksum" }}
+                key: v1-tested-commits
                 paths:
                   - .circleci/.checksum
 
