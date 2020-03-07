@@ -16,6 +16,8 @@ jobs:
           command: |
             if [[ ! -f .circleci/.checksum ]]; then
               echo "export REQ_CHANGED=true" >> $BASH_ENV
+            else
+              echo "export REQ_CHANGED=false" >> $BASH_ENV
             fi
       - when:
           condition: $REQ_CHANGED
