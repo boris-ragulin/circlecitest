@@ -32,7 +32,7 @@ jobs:
               echo "export REQ_CHANGED=true" >> $BASH_ENV
             fi
       - run:
-          command: echo $REQ_CHANGED
+          command: echo ${REQ_CHANGED}
       - build_docker:
           run: $REQ_CHANGED
           # persist_to_workspace:
