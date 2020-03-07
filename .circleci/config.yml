@@ -1,7 +1,4 @@
 version: 2.1
-commands:
-
-
 jobs:
   build_deps:
     docker:
