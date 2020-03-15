@@ -14,6 +14,9 @@ jobs:
       - run:
           command: pwd
           working_directory: ~/test/<< parameters.environment >>
+      - run:
+          command: ls -la
+          working_directory: ~/test/<< parameters.environment >>
 
 workflows:
   version: 2
