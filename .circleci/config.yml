@@ -5,9 +5,10 @@ jobs:
     parameters:
       environment:
         type: string
-        default: ""
+      var:
+        type: string
     environment:
-      TF_VAR_test: onsiter_image=eu.gcr.io/test/app:${CIRCLE_BRANCH}-${CIRCLE_SHA1}
+      TF_VAR_test: << parameters.var >>
     docker:
       - image: circleci/python
     steps:
@@ -29,6 +30,8 @@ workflows:
       - build_deps:
           name: first
           environment: prod
+          var: onsiter_image=eu.gcr.io/test/app:${CIRCLE_BRANCH}-${CIRCLE_SHA1}
       - build_deps:
           name: second
           environment: stg
+          var: onsiter_image=eu.gcr.io/test/app:${CIRCLE_BRANCH}-${CIRCLE_SHA1}
