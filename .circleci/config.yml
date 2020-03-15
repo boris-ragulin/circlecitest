@@ -12,7 +12,7 @@ jobs:
       - checkout:
           path: ~/test
       - run:
-          command: ls -la
+          command: pwd
           working_directory: ~/test/<< parameters.environment >>
 
 workflows:
