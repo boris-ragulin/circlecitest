@@ -6,6 +6,8 @@ jobs:
       environment:
         type: string
         default: ""
+    environment:
+      TF_VAR_test: onsiter_image=eu.gcr.io/test/app:${CIRCLE_BRANCH}-${CIRCLE_SHA1}
     docker:
       - image: circleci/python
     steps:
@@ -17,6 +19,8 @@ jobs:
       - run:
           command: ls -la
           working_directory: ~/test/<< parameters.environment >>
+      - run:
+          command: echo "${TF_VAR_test}"
 
 workflows:
   version: 2
